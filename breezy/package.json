@@ -1,6 +1,6 @@
 {
   "name": "@jho406/breezy",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Use a vanilla Rails with React and Redux",
   "main": "dist/index.js",
   "scripts": {
