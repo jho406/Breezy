@@ -18,10 +18,16 @@ import {
 
 function updateAllFragments (state, pageKey) {
   const selectedPage = state[pageKey]
-  forEachFragmentInPage(selectedPage, (fragmentName, fragmentPath) => {
-    const updatedNode = getIn(selectedPage, fragmentPath)
-    state = copyInByFragment(state, fragmentName, updatedNode)
-  })
+  const {fragments} = selectedPage
+
+  Object.entries(fragments)
+    .forEach(([fragmentName, paths]) => {
+      paths.forEach((path) => {
+        const fullPath = ['data', path].join('.')
+        const updatedNode = getIn(selectedPage, fullPath)
+        state = copyInByFragment(state, fragmentName, updatedNode)
+      })
+    })
 
   return state
 }
@@ -66,13 +72,13 @@ function updateFragmentsInPageToMatch (state, pageKey, fragmentName, pathToFragm
 
   const node = getIn(state, [pageKey, 'data', pathToFragment].join('.'))
   const copy = JSON.stringify(node)
-  let nextState = state
 
-  forEachFragmentPathInPage(currentPage, fragmentName, (path) => {
-    nextState = setIn(nextState, [pageKey, 'data', path].join('.'), JSON.parse(copy))
+  const fragmentPaths = currentPage.fragments[fragmentName] || []
+  fragmentPaths.forEach((path) => {
+    state = setIn(state, [pageKey, 'data', path].join('.'), JSON.parse(copy))
   })
 
-  return nextState
+  return state
 }
 
 function handleGraft (state, pageKey, node, pathToNode, fragments={}) {

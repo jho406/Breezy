@@ -22,27 +22,6 @@ export function pagePath (pageKey, keyPath) {
   return fullPath.join('.')
 }
 
-export function forEachFragmentPathInPage (page, name, fn = ()=>{}) {
-  const keyPaths = fragmentPathsInPage(page, name)
-  keyPaths.forEach((path) => {
-    fn(path)
-  })
-}
-
-export function fragmentPathsInPage (page, name) {
-  return page.fragments[name] || []
-}
-
-export function forEachFragmentInPage ({fragments}, fn = () => {}) {
-  Object.entries(fragments)
-    .forEach(([fragmentName, paths]) => {
-      paths.forEach((path) => {
-        const fragmentPath = ['data', path].join('.')
-        fn(fragmentName, fragmentPath)
-      })
-    })
-}
-
 export function isGraft (page) {
   return page.action === 'graft'
 }
