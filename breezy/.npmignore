@@ -1,4 +1,10 @@
 /lib
 /spec
 .babelrc
-*.*_spec.js
+**/*_spec.js
+**/*Spec.js
+/coverage
+/.nyc_output
+yarn.lock
+.eslintignore
+.eslintrc.json
