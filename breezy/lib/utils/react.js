@@ -3,7 +3,6 @@ import {
   remote,
   saveAndProcessPage,
   copyPage,
-  ensureSingleVisit,
 } from '../action_creators'
 import { urlToPageKey } from './url'
 
@@ -37,7 +36,6 @@ export function mapStateToProps(
 }
 
 export const mapDispatchToProps = {
-  ensureSingleVisit,
   saveAndProcessPage,
   copyPage,
 }
@@ -45,7 +43,6 @@ export const mapDispatchToProps = {
 export const mapDispatchToPropsIncludingVisitAndRemote = {
   visit,
   remote,
-  ensureSingleVisit,
   saveAndProcessPage,
   copyPage,
 }

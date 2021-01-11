@@ -2,15 +2,10 @@ import React from 'react'
 import {
   urlToPageKey,
   pathWithoutBZParams,
-  uuidv4,
   argsForHistory,
 } from '../utils'
 import parse from 'url-parse'
-import {
-  REMOVE_PAGE,
-  OVERRIDE_VISIT_SEQ,
-  HISTORY_CHANGE,
-} from '../actions'
+import { REMOVE_PAGE, HISTORY_CHANGE } from '../actions'
 
 function argsForNavInitialState(url) {
   return {
@@ -69,14 +64,6 @@ class Nav extends React.Component {
       if (action === 'replace') {
         this.history.replace(...historyArgs)
       }
-
-      const seqId = uuidv4()
-      store.dispatch({
-        type: OVERRIDE_VISIT_SEQ,
-        payload: {
-          seqId,
-        },
-      })
 
       this.setState({ pageKey: nextPageKey, ownProps })
 

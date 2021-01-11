@@ -40,7 +40,6 @@ A map of handy [action creators](#action-creators).
 
 ```javascript
 export const mapDispatchToProps = {
-  ensureSingleVisit,
   pageKey,
   copyPage,
   saveAndProcessPage,
@@ -59,7 +58,6 @@ A map of handy [action creators](#action-creators) including the original `visit
 
 ```javascript
 export const mapDispatchToProps = {
-  ensureSingleVisit,
   visit,
   remote,
   pageKey,
@@ -144,16 +142,16 @@ Then somewhere in your component
 
 ### visit
 
-Makes an ajax call to a page, and sets the response to the `pages` store. Use `visit` when you want full page-to-page transitions on the user's last click. There can only ever be one visit at a time. If you happen to call `visit` while another visit is taking place, only the most recent visit will callback with `canNavigate: true`.
+Makes an ajax call to a page, and sets the response to the `pages` store. Use `visit` when you want full page-to-page transitions on the user's last click. There can only ever be one visit at a time. If you happen to call `visit` while another visit is taking place, it will abort the previous one.
 
 **Note** `visit` will strip any `bzq` query parameters from your pathQuery unless you pass a `placeholderKey`.
 
 ```javascript
-visit(pathQuery).then(({rsp, page, pageKey, screen, needsRefresh, canNavigate}) => {})
+visit(pathQuery).then(({rsp, page, pageKey, screen, needsRefresh}) => {})
 
-visit(pathQuery, {...fetchRequestOptions}).then(({rsp, page, pageKey, screen, needsRefresh, canNavigate}) => {})
+visit(pathQuery, {...fetchRequestOptions}).then(({rsp, page, pageKey, screen, needsRefresh}) => {})
 
-visit(pathQuery, {...fetchRequestOptions}, pageKey).then(({rsp, page, pageKey, screen, needsRefresh, canNavigate}) => {})
+visit(pathQuery, {...fetchRequestOptions}, pageKey).then(({rsp, page, pageKey, screen, needsRefresh}) => {})
 
 visit(pathQuery, {...fetchRequestOptions}, pageKey).catch(({message, fetchArgs, url, pageKey}) => {})
 ```
@@ -170,7 +168,6 @@ visit(pathQuery, {...fetchRequestOptions}, pageKey).catch(({message, fetchArgs, 
 
 | Callback options | Type | Notes |
 | :--- | :--- | :--- |
-| canNavigate | `Boolean` | There can only be one visit anytime. If 2 visits happen at the same time, both will be fulfilled, but only the last one will be passed a `canNavigate = true` in its callback. |
 | needsRefresh | `Boolean` | If the new request has new JS assets to get - i.e., the last fingerprint is different from the new fingerprint, then it will return true. |
 | componentIdentifier | `String` | The screen that your react application should render next. |
 | page | `Object` | The full parsed page response from your `foobar.json.props` template. |
@@ -210,14 +207,13 @@ Remote makes an ajax call and saves the response to the `pages` store in async f
 **Note** Unlike `visit`, `remote` will not strip any `bzq` url parameters.
 
 ```javascript
-remote(pathQuery, {...fetchRequestOptionsAndMore}, pageKey).then(({rsp, page, screen, needsRefresh, canNavigate}) => {})
+remote(pathQuery, {...fetchRequestOptionsAndMore}, pageKey).then(({rsp, page, screen, needsRefresh}) => {})
 
 remote(pathQuery, {...fetchRequestOptionsAndMore}, pageKey).catch(({message, fetchArgs, url, pageKey}) => {})
 ```
 
 Shares the same arguments as `visit` with a few differences:
 
-* `canNavigate` is not available as an option passed to your then-able function.
 * `suggestedAction` is not available as an option passed to your then-able function.
 * `placeholder` is not available
 * You can override where the response is saved with a `pageKey` options

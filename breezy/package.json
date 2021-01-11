@@ -55,7 +55,6 @@
     "html-react-parser": "^0.13.0"
   },
   "dependencies": {
-    "url-parse": "^1.4.0",
-    "uuid": "^3.1.0"
+    "url-parse": "^1.4.0"
   }
 }

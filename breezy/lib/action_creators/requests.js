@@ -2,7 +2,6 @@ import {
   argsForFetch,
   parseResponse,
   getIn,
-  uuidv4,
   isGraft,
   needsRefresh,
   getFetch,
@@ -12,12 +11,7 @@ import {
   removeBzq,
 } from '../utils'
 import parse from 'url-parse'
-import {
-  CLEAR_FLASH,
-  BEFORE_FETCH,
-  BREEZY_ERROR,
-  OVERRIDE_VISIT_SEQ,
-} from '../actions'
+import { CLEAR_FLASH, BEFORE_FETCH, BREEZY_ERROR } from '../actions'
 import { copyPage, saveAndProcessPage } from './index'
 
 function beforeFetch(payload) {
@@ -113,30 +107,7 @@ export function remote(
   }
 }
 
-function canNavigate(seqId, { controlFlows }) {
-  if (controlFlows['visit'] === seqId) {
-    return true
-  } else {
-    return false
-  }
-}
-
-export function ensureSingleVisit(fn) {
-  return (dispatch, getState) => {
-    const seqId = uuidv4()
-    dispatch({
-      type: OVERRIDE_VISIT_SEQ,
-      payload: {
-        seqId,
-      },
-    })
-
-    return fn().then((obj) => {
-      const { breezy } = getState()
-      return { ...obj, canNavigate: canNavigate(seqId, breezy) }
-    })
-  }
-}
+let lastVisitController = new AbortController()
 
 export function visit(
   path,
@@ -176,55 +147,57 @@ export function visit(
       path = removeBzq(path)
     }
 
+    const controller = new AbortController()
+    const { signal } = controller
     const fetchArgs = argsForFetch(getState, path, {
       headers,
       body,
       method,
+      signal,
     })
 
-    return ensureSingleVisit(() => {
-      dispatch(beforeFetch({ fetchArgs }))
+    dispatch(beforeFetch({ fetchArgs }))
 
-      const fetch = getFetch()
-      return fetch(...fetchArgs)
-        .then(parseResponse)
-        .then(({ rsp, json }) => {
-          const { breezy, pages = {} } = getState()
+    const fetch = getFetch()
 
-          const meta = {
-            ...buildMeta(pageKey, json, breezy),
-            redirected: rsp.redirected,
-            rsp,
-            fetchArgs,
+    lastVisitController.abort()
+    lastVisitController = controller
+
+    return fetch(...fetchArgs)
+      .then(parseResponse)
+      .then(({ rsp, json }) => {
+        const { breezy, pages = {} } = getState()
+
+        const meta = {
+          ...buildMeta(pageKey, json, breezy),
+          redirected: rsp.redirected,
+          rsp,
+          fetchArgs,
+        }
+
+        meta.suggestedAction = 'push'
+        if (!rsp.redirected && fetchArgs[1].method != 'GET') {
+          meta.suggestedAction = 'replace'
+        }
+
+        if (method !== 'GET') {
+          const contentLocation = rsp.headers.get('content-location')
+
+          if (contentLocation) {
+            pageKey = urlToPageKey(contentLocation)
           }
+        }
 
-          meta.suggestedAction = 'push'
-          if (!rsp.redirected && fetchArgs[1].method != 'GET') {
-            meta.suggestedAction = 'replace'
-          }
+        if (rsp.redirected) {
+          pageKey = urlToPageKey(rsp.url)
+        }
 
-          if (method !== 'GET') {
-            const contentLocation = rsp.headers.get(
-              'content-location'
-            )
+        const page = beforeSave(pages[pageKey], json)
+        dispatch(saveAndProcessPage(pageKey, page))
+        meta.pageKey = pageKey
 
-            if (contentLocation) {
-              pageKey = urlToPageKey(contentLocation)
-            }
-          }
-
-          if (rsp.redirected) {
-            pageKey = urlToPageKey(rsp.url)
-          }
-
-          const page = beforeSave(pages[pageKey], json)
-          dispatch(saveAndProcessPage(pageKey, page))
-          meta.pageKey = pageKey
-
-          return meta
-        })
-    })(dispatch, getState).catch((e) =>
-      handleFetchErr(e, fetchArgs, dispatch)
-    )
+        return meta
+      })
+      .catch((e) => handleFetchErr(e, fetchArgs, dispatch))
   }
 }

@@ -141,10 +141,6 @@ describe('Nav', () => {
                 hash: '',
               }
             },
-            {
-              type: '@@breezy/OVERRIDE_VISIT_SEQ',
-              payload: { seqId: jasmine.any(String) },
-            },
           ]
           expect(store.getActions()).toEqual(expectedActions)
           done()

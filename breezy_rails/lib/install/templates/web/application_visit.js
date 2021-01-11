@@ -19,14 +19,9 @@ export function buildVisitAndRemote(ref, store) {
           return
         }
 
-        // There can only be one visit at a time, if `canNavigate` is false,
-        // then this request will be saved to the store but should be ignored 
-        // for a more recent visit.
-        if (meta.canNavigate) {
-          ref.current.navigateTo(meta.pageKey, {
-            action: meta.suggestedAction,
-          })
-        }
+        ref.current.navigateTo(meta.pageKey, {
+          action: meta.suggestedAction,
+        })
       })
       .finally(() => {
         // Do something after

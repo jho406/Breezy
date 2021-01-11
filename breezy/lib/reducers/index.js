@@ -4,7 +4,6 @@ import {
   CLEAR_FLASH,
   SAVE_RESPONSE,
   HANDLE_GRAFT,
-  OVERRIDE_VISIT_SEQ,
   HISTORY_CHANGE,
   SET_BASE_URL,
   SET_CSRF_TOKEN,
@@ -210,22 +209,10 @@ export function metaReducer(state = {}, action) {
   }
 }
 
-export function controlFlowReducer(state = {}, action) {
-  switch (action.type) {
-    case OVERRIDE_VISIT_SEQ: {
-      const { seqId } = action.payload
-      return { ...state, visit: seqId }
-    }
-    default:
-      return state
-  }
-}
-
 export function breezyReducer(state = {}, action) {
   let meta = metaReducer(state, action)
-  let controlFlows = controlFlowReducer(meta.controlFlows, action)
 
-  return { ...meta, controlFlows }
+  return { ...meta }
 }
 
 export const rootReducer = {
