@@ -35,7 +35,7 @@ This results in duplicate JSON nodes across our Redux state:
 }
 ```
 
-As we mentioned in the [state shape guide](docs/redux-state-shape.md) this is by design. To update these cross cutting cocerns, you will have create a reducer to iterate through each `pages` node and immutably update them. This can be error prone, but Breezy provides tooling to make this easy.
+As we mentioned in the [state shape guide](./redux-state-shape.md) this is by design. To update these cross cutting cocerns, you will have create a reducer to iterate through each `pages` node and immutably update them. This can be error prone, but Breezy provides tooling to make this easy.
 
 # Fragments
 

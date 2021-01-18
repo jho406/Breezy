@@ -197,14 +197,18 @@ or if you're using a form
 ```
 
 `data-bz-visit` also has 2 companion attributes:
+
 1. `data-bz-placeholder` will allow you to add a placeholder.
 2. `data-bz-method` will set the method of the request (GET, POST, PUT, DELETE) for a `<a>` tag.
+
 
 ### remote
 
 Remote makes an ajax call and saves the response to the `pages` store in async fashion. Use this if you want to [update parts](react-redux.md#traversing-nodes) of the current page or preload other pages.
 
-**Note** Unlike `visit`, `remote` will not strip any `bzq` url parameters.
+{% hint style="info" %}
+Unlike `visit`, `remote` will not strip any `bzq` url parameters.
+{% endhint %}
 
 ```javascript
 remote(pathQuery, {...fetchRequestOptionsAndMore}, pageKey).then(({rsp, page, screen, needsRefresh}) => {})

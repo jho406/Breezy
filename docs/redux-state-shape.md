@@ -39,5 +39,5 @@ This shape differs from conventional Redux approaches where state is normalized 
 
 The `pages` node also serves as a cache of your previous visits. That means there's a chance for some data in your Redux state to be out of date. For example, your most recent visit may have an updated header that your previous page does not have.
 
-You will have to create your own reducers to update these fragments, but Breezy provides tooling to make it easier to update fragments. You can read more about updating fragments [here](docs/updating-fragments.md)
+You will have to create your own reducers to update these fragments, but Breezy provides tooling to make it easier to update fragments. You can read more about updating fragments [here](./updating-fragments.md)
 

@@ -58,7 +58,9 @@ remote('/dashboard?bzq=data.posts.0.details')
 
 To enable this functionality, you are required to implement `member_at(index)` on the passed collection.
 
+{% hint style="info" %}
 PropsTemplate includes a `Array` extension which delegates to `at`. If you've used the Breezy generators, it will be included in an initializer.
+{% endhint %}
 
 While traversing by index works fine, it can lead the wrong post being updated if your Redux state has changed by the time the request comes back.
 
@@ -115,9 +117,10 @@ json.array! @posts , key: :some_id do |post|
 end
 ```
 
-## Behavior with Caching and Deferment
+{% hint style="info" %}
 
 When querying, Breezy will disable [caching](../props_template/README.md#caching) and [deferement](../props_template/README.md#deferment) until the target node is reached.
 
+{% endhint %}
 
-That's the basics of traversing with Breezy. A lot of modern SPA functionality can be achieved by just a few lines of code. Head over to (recipes)[#recipes] for examples.
+That's the basics of traversing with Breezy. A lot of modern SPA functionality can be achieved by just a few lines of code. Head over to [recipes](./recipes.md) for examples.

@@ -95,7 +95,7 @@ this.props.remote("/posts?bzq=data.header", {beforeSave: (prevPage, nextPage) =>
 }})
 ```
 
-You may also [specify](docs/react-redux.md#remote) a `pageKey` param to tell Breezy where to store the results. If you're using the thunk through a connected component, this will be set to the key of the current page for you.
+You may also [specify](./react-redux.md#remote) a `pageKey` param to tell Breezy where to store the results. If you're using the thunk through a connected component, this will be set to the key of the current page for you.
 
 # Deferments
 
@@ -138,4 +138,4 @@ json.metrics(defer: [:manual, placeholder: {total_visitors: 0}]) do
 end
 ```
 
-See [recipes](docs/recipes.md#loading-content-later) for more examples.
+See [recipes](./recipes.md#loading-content-later) for more examples.

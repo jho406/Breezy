@@ -103,7 +103,7 @@ The syntax of `bzq` is a keypath, here's another example using an array:
   <a href='/posts?bzq=data.post_list.0.title' data-bz-remote={true} />
 ```
 
-Read more about this in the [traversals guide](docs/traversal-guide.md)
+Read more about this in the [traversals guide](./traversal-guide.md)
 
 
 ## Embrace UJS

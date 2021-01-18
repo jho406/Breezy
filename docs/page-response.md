@@ -14,13 +14,14 @@ Breezy expects your JSON responses to contain the following attributes. If you u
   path,
   renderedAt,
   flash,
+  fragments,
 }
 ```
 
 ### `data`
 Passed to your page component as props. In a Breezy application, this would be the the contents of your templates, e.g., `index.json.props`. Note that `flash` will be merged with data when using Breezy's `mapStateToProps`.
 
-If you used the generators, a convenient `fragments` field will also be included in `data`. You can read more about fragments [here](docs/updating-fragments).
+If you used the generators, a convenient `fragments` field will also be included in `data`. You can read more about fragments [here](./updating-fragments.md).
 
 ### `componentIdentifier`
 A `string` to instruct Breezy which component to render. The generated `application.json.props` will set this to the virtual path of the template, but you can customize this to fit your needs.
@@ -64,4 +65,7 @@ An unix timestamp representing the time the response was rendered.
 
 ### `flash`
 A `hash` of [flash messages](./rails.md#rails-flash). In `application.json.props` this is set to `flash.to_h`.
+
+### `fragments`
+An `array` of [fragments](./updating-fragments.md#fragments). In `application.json.props` this is set to `json.fragments!`.
 
