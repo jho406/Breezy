@@ -1,3 +1,0 @@
-json.name 'john'
-json.details(partial: 'details') do
-end

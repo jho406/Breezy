@@ -1,6 +1,0 @@
-json.contact do
-  json.phone do
-    json.home '111'
-    json.cell '222'
-  end
-end

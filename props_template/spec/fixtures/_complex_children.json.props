@@ -1,5 +1,0 @@
-opts = {
-  partial: ['complex_nested_children', locals: {children: children}],
-}
-json.array! children, opts do
-end

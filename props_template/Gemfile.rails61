@@ -1,6 +1,0 @@
-source 'https://rubygems.org'
-gemspec
-
-gem 'rspec'
-gem 'byebug'
-gem 'rails', '~> 6.1.0'

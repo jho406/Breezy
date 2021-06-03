@@ -1,4 +1,0 @@
-json.array! children do
-  json.details partial: 'details' do
-  end
-end

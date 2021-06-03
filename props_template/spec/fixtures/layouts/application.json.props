@@ -1,3 +1,0 @@
-json.data do
-  yield json
-end
