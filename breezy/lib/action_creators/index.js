@@ -1,4 +1,4 @@
-import { isGraft, getFetch, urlToPageKey } from '../utils'
+import { isGraft, urlToPageKey } from '../utils'
 import parse from 'url-parse'
 import {
   SAVE_RESPONSE,
@@ -48,10 +48,6 @@ export function handleGraft({ pageKey, page }) {
 function fetchDeferments(pageKey, defers = []) {
   pageKey = urlToPageKey(pageKey)
   return (dispatch) => {
-    if (typeof getFetch() !== 'function') {
-      return Promise.resolve()
-    }
-
     const fetches = defers
       .filter(({ type }) => type === 'auto')
       .map(function ({

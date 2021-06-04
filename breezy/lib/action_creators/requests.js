@@ -4,7 +4,6 @@ import {
   getIn,
   isGraft,
   needsRefresh,
-  getFetch,
   urlToPageKey,
   withoutBusters,
   hasBzq,
@@ -84,7 +83,6 @@ export function remote(
 
     dispatch(beforeFetch({ fetchArgs }))
 
-    const fetch = getFetch()
     return fetch(...fetchArgs)
       .then(parseResponse)
       .then(({ rsp, json }) => {
@@ -157,8 +155,6 @@ export function visit(
     })
 
     dispatch(beforeFetch({ fetchArgs }))
-
-    const fetch = getFetch()
 
     lastVisitController.abort()
     lastVisitController = controller

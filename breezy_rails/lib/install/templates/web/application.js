@@ -57,7 +57,6 @@ export default class Application extends React.Component {
       initialPage: this.props.initialPage,
       baseUrl: this.props.baseUrl,
       path: this.props.path,
-      fetch: this.hasWindow ? window.fetch : undefined,
       // The max number of pages to keep in the store.
       // maxPages: 20
     })
@@ -105,7 +104,6 @@ export default class Application extends React.Component {
 
     appEl.removeEventListener('click', onClick)
     appEl.removeEventListener('submit', onSubmit)
-    this.breezy.stop()
   }
 
   buildStore(initialState, {breezy: breezyReducer, pages: pagesReducer}) {

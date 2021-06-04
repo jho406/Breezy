@@ -1,7 +1,7 @@
 import parse from 'url-parse'
 import { rootReducer } from './reducers'
 import { config } from './config'
-import { urlToPageKey, setFetch, unsetFetch } from './utils'
+import { urlToPageKey } from './utils'
 import { saveAndProcessPage } from './action_creators'
 import { HISTORY_CHANGE, SET_CSRF_TOKEN } from './actions'
 
@@ -19,10 +19,6 @@ export {
 export { getIn } from './utils/immutability.js'
 export { urlToPageKey }
 
-export function stop() {
-  unsetFetch()
-}
-
 function pageToInitialState(key, page) {
   return {
     pages: { [key]: page },
@@ -31,7 +27,6 @@ function pageToInitialState(key, page) {
 
 export function start({
   initialPage,
-  fetch,
   baseUrl = config.baseUrl,
   maxPages = config.maxPages,
   path,
@@ -40,8 +35,6 @@ export function start({
   const { csrfToken } = initialPage
   const location = parse(path)
   const { pathname, query, hash } = location
-
-  setFetch(fetch)
 
   config.baseUrl = baseUrl
   config.maxPages = maxPages
@@ -62,6 +55,5 @@ export function start({
     },
     initialState: pageToInitialState(initialPageKey, initialPage),
     initialPageKey,
-    stop,
   }
 }

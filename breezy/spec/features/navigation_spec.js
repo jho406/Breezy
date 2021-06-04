@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom'
-import { start, stop } from '../../lib/index'
+import { start } from '../../lib/index'
 import fetchMock from 'fetch-mock'
 import * as rsp from '../fixtures'
 import { render } from 'react-dom'
@@ -159,7 +159,6 @@ describe('navigation', () => {
           expect(history.location.pathname).toEqual('/foo')
           expect(history.location.search).toEqual('')
           expect(history.location.hash).toEqual('')
-          stop()
           done()
         }
       }
@@ -220,7 +219,6 @@ describe('navigation', () => {
           expect(history.location.pathname).toEqual('/foo')
           expect(history.location.search).toEqual('')
           expect(history.location.hash).toEqual('#title')
-          stop()
           done()
         }
       }
@@ -333,7 +331,6 @@ describe('navigation', () => {
             expect(history.location.hash).toEqual('')
             expect(navigatorRef.current.state.pageKey).toEqual('/foo')
 
-            stop()
             done()
           })
         }
@@ -386,7 +383,6 @@ describe('navigation', () => {
             expect(history.location.hash).toEqual('')
             expect(navigatorRef.current.state.pageKey).toEqual('/bar')
 
-            stop()
             done()
           })
         }
@@ -436,7 +432,6 @@ describe('navigation', () => {
             expect(history.location.hash).toEqual('')
             expect(navigatorRef.current.state.pageKey).toEqual('/bar')
 
-            stop()
             done()
           }
           mountNum ++
@@ -610,7 +605,6 @@ describe('navigation', () => {
         componentDidUpdate() {
           const state = store.getState()
           expect(state.pages['/foo'].data.address).toEqual({ zip: 91210 })
-          stop()
           done()
         }
       }

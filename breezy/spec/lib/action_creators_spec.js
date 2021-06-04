@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { setFetch, unsetFetch } from '../../lib/utils/window'
 import fetchMock from 'fetch-mock'
 import {
   visit,
@@ -40,14 +39,6 @@ const successfulBody = () => {
 fetchMock.mock()
 
 describe('action creators', () => {
-  beforeEach(() => {
-    setFetch(fetch)
-  })
-
-  afterEach(() => {
-    unsetFetch()
-  })
-
   describe('saveResponse', () => {
     it('fires SAVE_RESPONSE', () => {
       const pageKey = '/test'
