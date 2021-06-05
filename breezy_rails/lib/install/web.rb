@@ -59,7 +59,7 @@ say "Installing React, Redux, and Breezy"
 run "yarn add babel-plugin-module-resolver history@\"^4\" html-react-parser@\"^0.13\" react-redux redux-thunk redux redux-persist reduce-reducers immer @jho406/breezy --save"
 
 say "Updating webpack config to include .jsx file extension and resolved_paths"
-insert_into_file Webpacker.config.config_path, "    - .jsx\n", after: /extensions:\n/
+insert_into_file Webpacker.config.config_path, "    - .jsx\n", after: /\bextensions:\n/
 # For newer webpacker
 insert_into_file Webpacker.config.config_path, "'app/views', 'app/components'", after: /additional_paths: \[/
 # For older webpacker

@@ -61,6 +61,9 @@ describe('Nav', () => {
           '/foo': { componentIdentifier: 'about' },
           '/bar': { componentIdentifier: 'home' },
         },
+        breezy: {
+          csrfToken: "abc"
+        }
       })
 
       render(
@@ -94,6 +97,9 @@ describe('Nav', () => {
         pages: {
           '/bar': { componentIdentifier: 'home' },
         },
+        breezy: {
+          csrfToken: "abc"
+        }
       })
 
       render(
@@ -120,6 +126,9 @@ describe('Nav', () => {
           '/foo': { componentIdentifier: 'about' },
           '/bar': { componentIdentifier: 'home' },
         },
+        breezy: {
+          csrfToken: "abc"
+        }
       })
 
       class ExampleAbout extends About {
@@ -170,6 +179,9 @@ describe('Nav', () => {
           '/bar': { componentIdentifier: 'home' },
           '/foo': { componentIdentifier: 'about' },
         },
+        breezy: {
+          csrfToken: "abc"
+        }
       })
 
       let mountTimes = 0

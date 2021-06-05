@@ -4,6 +4,8 @@ import {
   pathWithoutBZParams,
   argsForHistory,
 } from '../utils'
+import { mapStateToProps, mapDispatchToProps } from '../utils/react'
+import { connect } from 'react-redux'
 import parse from 'url-parse'
 import { REMOVE_PAGE, HISTORY_CHANGE } from '../actions'
 
@@ -17,8 +19,16 @@ function argsForNavInitialState(url) {
 class Nav extends React.Component {
   constructor(props) {
     super(props)
-    const { history, initialPageKey } = this.props
-
+    const { history, initialPageKey, mapping } = this.props
+    const nextMapping = { ...mapping }
+    for (const key in nextMapping) {
+      const component = nextMapping[key]
+      nextMapping[key] = connect(
+        mapStateToProps,
+        mapDispatchToProps
+      )(component)
+    }
+    this.mapping = nextMapping
     this.history = history
     this.navigateTo = this.navigateTo.bind(this)
     this.onHistoryChange = this.onHistoryChange.bind(this)
@@ -133,11 +143,11 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { mapping, store, visit, remote } = this.props
+    const { store, visit, remote } = this.props
 
     const { pageKey, ownProps } = this.state
     const { componentIdentifier } = store.getState().pages[pageKey]
-    const Component = mapping[componentIdentifier]
+    const Component = this.mapping[componentIdentifier]
 
     if (Component) {
       return (

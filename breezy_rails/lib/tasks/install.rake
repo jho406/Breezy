@@ -15,7 +15,7 @@ namespace :breezy do
     package_json = JSON.parse(File.read(Rails.root.join("package.json")))
 
     if package_json['dependencies']['react'].nil?
-      $stderr.puts "React not installed. Did you run `rails webpacker:install:react`?"
+      $stderr.puts "React not installed. Did you install React? https://github.com/rails/webpacker#react"
       $stderr.puts "Exiting!" && exit!
     end
   end

@@ -63,11 +63,10 @@ class BreezyInstallationTest < Minitest::Test
       successfully "npm run build"
       successfully "npm pack ./dist"
     end
-
-    successfully "echo \"gem 'props_template' >> Gemfile"
+    successfully "echo \"gem 'props_template'\" >> Gemfile"
     successfully "echo \"gem 'breezy', path: '#{BREEZY_RAILS_PATH}'\" >> Gemfile"
     successfully "bundle install"
-    successfully "yarn install"
+    successfully "cp #{BREEZY_RAILS_PATH}/test/acceptance/babel.config.js ./babel.config.js"
     FileUtils.rm_f("app/javascript/packs/application.js")
     successfully "bundle exec rails breezy:install:web"
     update_package_json
@@ -112,7 +111,7 @@ class BreezyInstallationTest < Minitest::Test
       generate_test_app "testapp"
       Dir.chdir('testapp') do
         successfully 'bundle install'
-        successfully 'bundle exec rails webpacker:install:react'
+        successfully 'yarn add react react-dom @babel/preset-react'
 
         FileUtils.rm_f("public/index.html")
         install_breezy
