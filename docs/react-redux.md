@@ -241,7 +241,7 @@ Save and process a rendered view from PropsTemplate. It will also handle any def
 
 | Arguments | Type | Notes |
 | :--- | :--- | :--- |
-| pageKey | `String` | Optional, but recommended. The page key where you want a rendered response to be saved in. Use your rails url helpers. If this is skipped, only [fragments](props_template/README.md#partial-fragments) will be updated|
+| pageKey | `String` | Optional, but recommended. The page key where you want a rendered response to be saved in. Use your rails url helpers. If this is skipped, only [fragments](https://github.com/thoughtbot/props_template#partial-fragments) will be updated|
 | page | `String` | A rendered PropsTemplate|
 
 ### copyPage

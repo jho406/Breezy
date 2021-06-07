@@ -4,14 +4,8 @@ ROOT_DIR = File.expand_path('..', File.dirname(__FILE__))
 VERSION_FILE = File.join(ROOT_DIR, 'VERSION')
 BREEZY_DIR = File.join(ROOT_DIR, 'breezy')
 BREEZY_RAILS_DIR = File.join(ROOT_DIR, 'breezy_rails')
-PROPS_TEMPLATE_DIR = File.join(ROOT_DIR, 'props_template')
 
 version_str = File.read(VERSION_FILE)
-
-Dir.chdir(PROPS_TEMPLATE_DIR) do
-  system("gem build props_template.gemspec")
-  system("gem push props_template-#{version_str}.gem")
-end
 
 Dir.chdir(BREEZY_RAILS_DIR) do
   system("gem build breezy.gemspec")

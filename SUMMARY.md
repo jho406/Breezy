@@ -18,4 +18,3 @@
 * [React Redux](docs/react-redux.md)
 * [Rails](docs/rails.md)
 * [Utility](docs/utility.md)
-* [PropsTemplate](props_template/README.md)

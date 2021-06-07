@@ -119,7 +119,7 @@ end
 
 {% hint style="info" %}
 
-When querying, Breezy will disable [caching](../props_template/README.md#caching) and [deferement](../props_template/README.md#deferment) until the target node is reached.
+When querying, Breezy will disable [caching](https://github.com/thoughtbot/props_template#caching) and [deferement](https://github.com/thoughtbot/props_template#deferment) until the target node is reached.
 
 {% endhint %}
 

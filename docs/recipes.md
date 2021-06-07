@@ -133,7 +133,7 @@ end
 
 ## Chat app (Long-polling)
 
-You can use a combination of Rails 5 renderers, ActionCable, PropsTemplate  [fragments](props_template/README.md#partial-fragments) and preloading to stream updates to your users without much effort.
+You can use a combination of Rails 5 renderers, ActionCable, PropsTemplate  [fragments](https://github.com/thoughtbot/props_template#partial-fragments) and preloading to stream updates to your users without much effort.
 
 For example, if you already have a ActionCable channel setup, simply render the props and send it over the wire:
 

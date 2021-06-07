@@ -7,7 +7,6 @@ require 'rails/version'
 ROOT_DIR = File.expand_path('../../../../', __FILE__)
 TMP_DIR = File.join(ROOT_DIR, 'tmp')
 BREEZY_RAILS_PATH = File.join(ROOT_DIR, 'breezy_rails')
-PROPS_TEMPLATE_PATH = File.join(ROOT_DIR, 'props_template')
 BREEZY_BREEZY_PATH = File.join(ROOT_DIR, 'breezy')
 VERSION = File.read(File.expand_path("../../../VERSION", __dir__)).strip
 
@@ -65,7 +64,7 @@ class BreezyInstallationTest < Minitest::Test
       successfully "npm pack ./dist"
     end
 
-    successfully "echo \"gem 'props_template', path: '#{PROPS_TEMPLATE_PATH}'\" >> Gemfile"
+    successfully "echo \"gem 'props_template' >> Gemfile"
     successfully "echo \"gem 'breezy', path: '#{BREEZY_RAILS_PATH}'\" >> Gemfile"
     successfully "bundle install"
     successfully "yarn install"
