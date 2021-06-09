@@ -1,8 +1,9 @@
 import React from 'react'
 import parse, { domToReact } from 'html-react-parser'
 import attributesToProps from 'html-react-parser/lib/attributes-to-props'
+import PropTypes from 'prop-types'
 
-export default class extends React.Component {
+export default class RailsTag extends React.Component {
   constructor(props) {
     super(props)
     this.replace = this.replace.bind(this)
@@ -32,4 +33,8 @@ export default class extends React.Component {
       replace: this.replace,
     })
   }
+}
+
+RailsTag.propTypes = {
+  html: PropTypes.string,
 }

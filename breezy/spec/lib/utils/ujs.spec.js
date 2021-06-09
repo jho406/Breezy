@@ -71,7 +71,7 @@ describe('ujs', () => {
   describe('onClick', () => {
     it('calls visit on a valid link', () => {
       const ujsAttributePrefix = 'data'
-      const visit = jasmine.createSpy()
+      const visit = jest.fn()
       const navigatorRef = {
         current: {
           navigateTo: () => {}
@@ -94,7 +94,7 @@ describe('ujs', () => {
 
     it('calls visit with a placeholder when bzq is present on a valid link', () => {
       const ujsAttributePrefix = 'data'
-      const visit = jasmine.createSpy()
+      const visit = jest.fn()
       const navigatorRef = {
         current: {
           navigateTo: () => {}
@@ -125,7 +125,7 @@ describe('ujs', () => {
 
     it('calls remote if a link is enabled with remote', () => {
       const ujsAttributePrefix = 'data'
-      const remote = jasmine.createSpy()
+      const remote = jest.fn()
       const navigatorRef = {
         current: {
           navigateTo: () => {}
@@ -149,7 +149,7 @@ describe('ujs', () => {
     it('does not call visit on an link does not have the visit attribute data-visit', () => {
       const store = {}
       const ujsAttributePrefix = 'data'
-      const visit = jasmine.createSpy()
+      const visit = jest.fn()
       const navigatorRef = {
         current: {
           navigateTo: () => {}
@@ -179,7 +179,7 @@ describe('ujs', () => {
     it('does not call visit on an non-standard link', () => {
       const store = {}
       const ujsAttributePrefix = 'data'
-      const visit = jasmine.createSpy()
+      const visit = jest.fn()
       const navigatorRef = {
         current: {
           navigateTo: () => {}
@@ -277,7 +277,7 @@ describe('ujs', () => {
     it('succssfully posts a form with a visit attribute', () => {
       const store = {}
       const ujsAttributePrefix = 'data'
-      const visit = jasmine.createSpy()
+      const visit = jest.fn()
       const navigatorRef = {
         current: {
           navigateTo: () => {}
@@ -291,7 +291,7 @@ describe('ujs', () => {
         navigatorRef
       })
       global.FormData = () => {}
-      spyOn(global, 'FormData').and.returnValue({some: 'Body'})
+      jest.spyOn(global, 'FormData').mockImplementation(() => ({some: 'Body'}))
 
       const {onSubmit} = builder.handlers()
       const fakeFormEvent = createFakeFormEvent()
@@ -310,7 +310,7 @@ describe('ujs', () => {
     it('succssfully posts a form with a remote attribut', () => {
       const store = {}
       const ujsAttributePrefix = 'data'
-      const remote = jasmine.createSpy()
+      const remote = jest.fn()
       const navigatorRef = {
         current: {
           navigateTo: () => {}
@@ -324,7 +324,7 @@ describe('ujs', () => {
         navigatorRef
       })
       global.FormData = () => {}
-      spyOn(global, 'FormData').and.returnValue({some: 'Body'})
+      jest.spyOn(global, 'FormData').mockImplementation(() => ({some: 'Body'}))
 
       const {onSubmit} = builder.handlers()
       const fakeFormEvent = createFakeRemoteFormEvent()
@@ -343,7 +343,7 @@ describe('ujs', () => {
     it('does not posts a form without a visit attribute', () => {
       const store = {}
       const ujsAttributePrefix = 'data'
-      const visit = jasmine.createSpy()
+      const visit = jest.fn()
       const navigatorRef = {
         current: {
           navigateTo: () => {}
@@ -357,7 +357,7 @@ describe('ujs', () => {
         navigatorRef
       })
       global.FormData = () => {}
-      spyOn(global, 'FormData').and.returnValue({some: 'Body'})
+      jest.spyOn(global, 'FormData').mockImplementation(() => ({some: 'Body'}))
 
       const {onSubmit} = builder.handlers()
       const fakeFormEvent = createFakeFormEvent()

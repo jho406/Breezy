@@ -16,7 +16,7 @@ export function extractNodeAndPath(page) {
   }
 }
 
-export function argsForHistory(path, assets) {
+export function argsForHistory(path) {
   const pageKey = urlToPageKey(path)
 
   return [

@@ -4,7 +4,6 @@ import {
   SAVE_RESPONSE,
   HANDLE_GRAFT,
   GRAFTING_ERROR,
-  BREEZY_ERROR,
   GRAFTING_SUCCESS,
   COPY_PAGE,
 } from '../actions'

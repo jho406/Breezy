@@ -25,7 +25,7 @@ describe('.withMimeBust', () => {
   it('take a url and adds mime busting param, browsers will cache same urls even if mime type is different', () => {
     const url = withMimeBust('http://www.github.com')
 
-    expect(url).toEqual('http://www.github.com?__=0')
+    expect(url).toEqual('http://www.github.com/?__=0')
   })
 })
 
@@ -33,13 +33,13 @@ describe('.withoutHash', () => {
   it('take a url and removes the hash', () => {
     const url = withoutHash('http://www.github.com#abc')
 
-    expect(url).toEqual('http://www.github.com')
+    expect(url).toEqual('http://www.github.com/')
   })
 
   it('takes a blank and returns blank', () => {
     const url = withoutHash('http://www.github.com#abc')
 
-    expect(url).toEqual('http://www.github.com')
+    expect(url).toEqual('http://www.github.com/')
   })
 })
 
@@ -47,7 +47,7 @@ describe('.removeBzq', () => {
   it('take a url and removes the bzq param', () => {
     const url = removeBzq('http://www.github.com?bzq=hello')
 
-    expect(url).toEqual('http://www.github.com')
+    expect(url).toEqual('http://www.github.com/')
   })
 
   it('take a blank url and returns blank', () => {
@@ -59,9 +59,9 @@ describe('.removeBzq', () => {
 
 describe('.pathQuery', () => {
   it('take a url and returns a url with a query and pathname only', () => {
-    const url = pathQuery('http://www.github.com?bzq=hello#fooo')
+    const url = pathQuery('http://www.github.com/path?bzq=hello#fooo')
 
-    expect(url).toEqual('?bzq=hello')
+    expect(url).toEqual('/path?bzq=hello')
   })
 
   it('take a blank url and returns blank', () => {
@@ -75,7 +75,7 @@ describe('.pathQueryHash', () => {
   it('take a url and returns a url with a query, pathname, and hash only', () => {
     const url = pathQueryHash('http://www.github.com?bzq=hello#fooo')
 
-    expect(url).toEqual('?bzq=hello#fooo')
+    expect(url).toEqual('/?bzq=hello#fooo')
   })
 
   it('take a blank url and returns blank', () => {

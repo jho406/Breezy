@@ -1,47 +1,25 @@
 import React from 'react'
-import {
-  urlToPageKey,
-  pathWithoutBZParams,
-  argsForHistory,
-} from '../utils'
-import { mapStateToProps, mapDispatchToProps } from '../utils/react'
-import { connect } from 'react-redux'
-import parse from 'url-parse'
+import { urlToPageKey, pathWithoutBZParams } from '../utils'
 import { REMOVE_PAGE, HISTORY_CHANGE } from '../actions'
-
-function argsForNavInitialState(url) {
-  return {
-    pageKey: urlToPageKey(url),
-    ownProps: {},
-  }
-}
+import PropTypes from 'prop-types'
 
 class Nav extends React.Component {
   constructor(props) {
     super(props)
-    const { history, initialPageKey, mapping } = this.props
-    const nextMapping = { ...mapping }
-    for (const key in nextMapping) {
-      const component = nextMapping[key]
-      nextMapping[key] = connect(
-        mapStateToProps,
-        mapDispatchToProps
-      )(component)
-    }
-    this.mapping = nextMapping
+    const { history, initialPageKey } = this.props
     this.history = history
     this.navigateTo = this.navigateTo.bind(this)
     this.onHistoryChange = this.onHistoryChange.bind(this)
-    this.state = argsForNavInitialState(initialPageKey)
+    this.state = {
+      pageKey: initialPageKey,
+      ownProps: {},
+    }
   }
 
   componentDidMount() {
-    const { initialPageKey } = this.props
-
     this.unsubscribeHistory = this.history.listen(
       this.onHistoryChange
     )
-    this.history.replace(...argsForHistory(initialPageKey))
   }
 
   componentWillUnmount() {
@@ -102,7 +80,7 @@ class Nav extends React.Component {
     }
   }
 
-  onHistoryChange(location, action) {
+  onHistoryChange(location) {
     const { store } = this.props
     const { pathname, search, hash, state } = location
 
@@ -128,7 +106,6 @@ class Nav extends React.Component {
   }
 
   notFound(identifier) {
-    const { store } = this.props
     let reminder = ''
     if (!identifier) {
       reminder =
@@ -144,10 +121,9 @@ class Nav extends React.Component {
 
   render() {
     const { store, visit, remote } = this.props
-
     const { pageKey, ownProps } = this.state
     const { componentIdentifier } = store.getState().pages[pageKey]
-    const Component = this.mapping[componentIdentifier]
+    const Component = this.props.mapping[componentIdentifier]
 
     if (Component) {
       return (
@@ -163,6 +139,15 @@ class Nav extends React.Component {
       this.notFound(componentIdentifier)
     }
   }
+}
+
+Nav.propTypes = {
+  store: PropTypes.object,
+  history: PropTypes.object,
+  mapping: PropTypes.object,
+  visit: PropTypes.func,
+  remote: PropTypes.func,
+  initialPageKey: PropTypes.string,
 }
 
 export default Nav

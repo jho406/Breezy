@@ -1,15 +1,12 @@
 import {
   argsForFetch,
   parseResponse,
-  getIn,
-  isGraft,
   needsRefresh,
   urlToPageKey,
   withoutBusters,
   hasBzq,
   removeBzq,
 } from '../utils'
-import parse from 'url-parse'
 import { CLEAR_FLASH, BEFORE_FETCH, BREEZY_ERROR } from '../actions'
 import { copyPage, saveAndProcessPage } from './index'
 
@@ -71,7 +68,7 @@ export function remote(
   } = {}
 ) {
   path = withoutBusters(path)
-  pageKey = urlToPageKey(pageKey)
+  pageKey = pageKey && urlToPageKey(pageKey)
 
   return (dispatch, getState) => {
     const fetchArgs = argsForFetch(getState, path, {

@@ -1,5 +1,10 @@
-import { isGraft, extractNodeAndPath, pagePath } from '../../../lib/utils/helpers'
+import {
+  isGraft,
+  extractNodeAndPath,
+  pagePath,
+} from '../../../lib/utils/helpers'
 //TODO: camelized path, also camelize this some_id=1 in path
+
 describe('isGraft', () => {
   it('returns true if page is a graft', () => {
     const page = {

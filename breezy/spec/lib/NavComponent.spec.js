@@ -1,19 +1,11 @@
-import { JSDOM } from 'jsdom'
-import { render } from 'react-dom'
-import start from '../../lib/index'
+import React from 'react'
 import fetchMock from 'fetch-mock'
 import * as rsp from '../fixtures'
-import React from 'react'
-import { mapStateToProps, mapDispatchToProps } from '../../lib/utils/react'
-import { Provider, connect } from 'react-redux'
+import { Provider } from 'react-redux'
 import { createMemoryHistory } from 'history'
 import configureMockStore from 'redux-mock-store'
 import Nav from '../../lib/components/NavComponent.js'
-
-const createScene = (html) => {
-  const dom = new JSDOM(`${html}`, { runScripts: 'dangerously' })
-  return { dom, target: dom.window.document.body.firstElementChild }
-}
+import { mount } from 'enzyme'
 
 class Home extends React.Component {
   constructor(props) {
@@ -43,16 +35,15 @@ class About extends React.Component {
 
 describe('Nav', () => {
   describe('navigateTo', () => {
-    it('navigates to the specified page', (done) => {
+    it('navigates to the specified page', () => {
       const history = createMemoryHistory({})
-      const { dom, target } = createScene('<div></div>')
+      history.push("/bar", {
+        breezy: true,
+        pageKey: '/bar',
+      })
+      let expected = '<div><h1>About Page</h1></div>'
 
       class ExampleAbout extends About {
-        componentDidMount() {
-          let expected = '<div><h1>About Page</h1></div>'
-          expect(dom.window.document.body.innerHTML).toEqual(expected)
-          done()
-        }
       }
 
       const mockStore = configureMockStore()
@@ -66,32 +57,27 @@ describe('Nav', () => {
         }
       })
 
-      render(
+      const component = mount(
         <Provider store={store}>
           <Nav
             store={store}
-            mapping={{ home: Home, about: ExampleAbout }}
+            mapping={{ home: Home, about: About }}
             initialPageKey={'/bar'}
             history={history}
           />
-        </Provider>,
-        target
+        </Provider>
       )
-      target.getElementsByTagName('button')[0].click()
+      expect(component.find(Home).exists()).toBe(true)
+      expect(component.find(About).exists()).toBe(false)
+
+      component.find('button').simulate('click')
+
+      expect(component.find(Home).exists()).toBe(false)
+      expect(component.find(About).exists()).toBe(true)
     })
 
-    it('does not navigates to the specified page if the page is not in the store', (done) => {
+    it('does not navigate to the specified page if the page is not in the store', () => {
       const history = createMemoryHistory({})
-      const { dom, target } = createScene('<div></div>')
-
-      class ExampleHome extends Home {
-        visit() {
-          expect(this.props.navigateTo('/foo')).toEqual(false)
-          expect(history.length).toEqual(1)
-          done()
-        }
-      }
-
       const mockStore = configureMockStore()
       const store = mockStore({
         pages: {
@@ -102,24 +88,32 @@ describe('Nav', () => {
         }
       })
 
-      render(
+      const component = mount(
         <Provider store={store}>
           <Nav
             store={store}
-            mapping={{ home: ExampleHome, about: About }}
+            mapping={{ home: Home, about: About }}
             initialPageKey={'/bar'}
             history={history}
           />
-        </Provider>,
-        target
+        </Provider>
       )
-      target.getElementsByTagName('button')[0].click()
+
+      expect(component.find(Home).exists()).toBe(true)
+      expect(component.find(About).exists()).toBe(false)
+
+      component.find('button').simulate('click')
+
+      expect(component.find(Home).exists()).toBe(true)
+      expect(component.find(About).exists()).toBe(false)
     })
 
-    it('navigates to the specified page and calls the action when used with react-redux', (done) => {
+    it('navigates to the specified page and calls the action when used with react-redux', () => {
       const history = createMemoryHistory({})
-      const { dom, target } = createScene('<div></div>')
-
+      history.push("/bar", {
+        breezy: true,
+        pageKey: '/bar',
+      })
       const mockStore = configureMockStore()
       const store = mockStore({
         pages: {
@@ -131,48 +125,39 @@ describe('Nav', () => {
         }
       })
 
-      class ExampleAbout extends About {
-        componentDidMount() {
-          const expectedActions = [
-            {
-              type: '@@breezy/HISTORY_CHANGE',
-              payload: {
-                pathname: '/bar',
-                search: '',
-                hash: '',
-              }
-            },
-            {
-              type: '@@breezy/HISTORY_CHANGE',
-              payload: {
-                pathname: '/foo',
-                search: '',
-                hash: '',
-              }
-            },
-          ]
-          expect(store.getActions()).toEqual(expectedActions)
-          done()
-        }
-      }
-
-      render(
+      const component = mount(
         <Provider store={store}>
           <Nav
             store={store}
-            mapping={{ home: Home, about: ExampleAbout }}
+            mapping={{ home: Home, about: About }}
             initialPageKey={'/bar'}
             history={history}
           />
-        </Provider>,
-        target
+        </Provider>
       )
-      target.getElementsByTagName('button')[0].click()
+      component.find('button').simulate('click')
+      expect(component.find(Home).exists()).toBe(false)
+      expect(component.find(About).exists()).toBe(true)
+
+      const expectedActions = [
+        {
+          type: '@@breezy/HISTORY_CHANGE',
+          payload: {
+            pathname: '/foo',
+            search: '',
+            hash: '',
+          }
+        },
+      ]
+      expect(store.getActions()).toEqual(expectedActions)
     })
 
-    it('navigates to the page when history changes', (done) => {
+    it('navigates to the page when history changes', () => {
       const history = createMemoryHistory({})
-      const { dom, target } = createScene('<div></div>')
+      history.push("/bar", {
+        breezy: true,
+        pageKey: '/bar',
+      })
       const mockStore = configureMockStore()
       const store = mockStore({
         pages: {
@@ -185,14 +170,13 @@ describe('Nav', () => {
       })
 
       let mountTimes = 0
+      let visitedAbout = false
+      let returnedHome = false
 
       class ExampleHome extends Home {
         componentDidMount() {
           if (mountTimes == 1) {
-            let expected =
-              '<div><div>Home Page<button> click </button></div></div>'
-            expect(dom.window.document.body.innerHTML).toEqual(expected)
-            done()
+            returnedHome = true
           }
           mountTimes++
         }
@@ -200,11 +184,12 @@ describe('Nav', () => {
 
       class ExampleAbout extends About {
         componentDidMount() {
+          visitedAbout = true
           history.goBack()
         }
       }
 
-      render(
+      const component = mount(
         <Provider store={store}>
           <Nav
             store={store}
@@ -212,10 +197,12 @@ describe('Nav', () => {
             initialPageKey={'/bar'}
             history={history}
           />
-        </Provider>,
-        target
+        </Provider>
       )
-      target.getElementsByTagName('button')[0].click()
+
+      component.find('button').simulate('click')
+      expect(visitedAbout).toBe(true)
+      expect(returnedHome).toBe(true)
     })
   })
 })

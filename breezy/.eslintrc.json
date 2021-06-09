@@ -1,20 +1,23 @@
 {
-  "env": {
-    "browser": true,
-    "commonjs": true,
-    "es6": true,
-    "node": true
-  },
-  "extends": "prettier",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
     },
-    "sourceType": "module"
-  },
-  "plugins": [ "prettier" ],
-  "rules": {
-    "prettier/prettier": ["error"]
-  }
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+
+    "plugins": [ "prettier", "react" ],
+    "rules": {
+      "prettier/prettier": ["error"]
+    }
 }

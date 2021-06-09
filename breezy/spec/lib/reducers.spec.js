@@ -321,7 +321,7 @@ describe('reducers', () => {
         })
 
         it('does not mutate the state when search results are empty', () => {
-          spyOn(console, 'warn')
+          jest.spyOn(console, 'warn')
 
           const prevState = {
             '/foo': {
@@ -368,7 +368,7 @@ describe('reducers', () => {
         })
 
         expect(nextState['/foo']).toEqual(
-          jasmine.objectContaining({
+          expect.objectContaining({
             data: {},
             csrfToken: 'token',
             assets: ['application-123.js'],
@@ -456,7 +456,7 @@ describe('reducers', () => {
           pageKey: '/foo',
           defers: [{ url: '/foo?bzq=data.foo.bar', path: 'data.foo.bar' }],
           fragments: [],
-          savedAt: jasmine.any(Number),
+          savedAt: expect.any(Number),
         })
       })
 
@@ -513,7 +513,7 @@ describe('reducers', () => {
           fragments: [
             { type: 'info', partial: 'info', path: 'data.foo.bar' }
           ],
-          savedAt: jasmine.any(Number),
+          savedAt: expect.any(Number),
         })
       })
 
@@ -564,7 +564,7 @@ describe('reducers', () => {
           fragments: [
             { type: 'info', partial: 'info', path: 'data.foo.bar' }
           ],
-          savedAt: jasmine.any(Number),
+          savedAt: expect.any(Number),
         })
       })
     })

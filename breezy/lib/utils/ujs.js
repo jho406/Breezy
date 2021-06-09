@@ -1,7 +1,7 @@
-import { withoutBusters, hasBzq, urlToPageKey } from './url'
+import { withoutBusters, urlToPageKey } from './url'
 
 export class HandlerBuilder {
-  constructor({ ujsAttributePrefix, store, visit, remote }) {
+  constructor({ ujsAttributePrefix, visit, remote }) {
     this.attributePrefix = ujsAttributePrefix
     this.isUJS = this.isUJS.bind(this)
 

@@ -57,46 +57,12 @@ jobs:
           name: Acceptance Test
           working_directory: ./breezy_rails
           command: BUNDLE_GEMFILE='' ruby -Ilib:test test/acceptance/breezy_installation_acceptance.rb
-  props-template:
-    parameters:
-      ruby-version:
-        type: executor
-      gemfile:
-        type: string
-    executor: << parameters.ruby-version >>
-    steps:
-      - checkout
-      - run:
-          name: Which bundler?
-          working_directory: ./props_template
-          command: bundle -v
-      - run:
-          name: Using Gemfile
-          working_directory: ./props_template
-          command: mv -f ./<< parameters.gemfile >> ./Gemfile
-      - run:
-          name: Bundle install
-          working_directory: ./props_template
-          command: bundle install
-      - run:
-          name: Rspec
-          working_directory: ./props_template
-          command: bundle exec rspec
 
 workflows:
   tests:
     jobs:
       - breezy
       - breezy-rails:
-          matrix:
-            parameters:
-              gemfile:
-                - Gemfile.rails60
-                - Gemfile.rails61
-              ruby-version:
-                - ruby26
-                - ruby27
-      - props-template:
           matrix:
             parameters:
               gemfile:

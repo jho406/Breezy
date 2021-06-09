@@ -2,7 +2,7 @@ import React from 'react'
 import parse from 'url-parse'
 import { rootReducer } from './reducers'
 import { config } from './config'
-import { urlToPageKey, ujsHandlers } from './utils'
+import { urlToPageKey, ujsHandlers, argsForHistory } from './utils'
 import { saveAndProcessPage } from './action_creators'
 import { HISTORY_CHANGE, SET_CSRF_TOKEN } from './actions'
 import {
@@ -12,15 +12,17 @@ import {
   compose,
 } from 'redux'
 import thunk from 'redux-thunk'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 import { createBrowserHistory, createMemoryHistory } from 'history'
 import Nav from './components/NavComponent'
+import PropTypes from 'prop-types'
 
 export {
   mapStateToProps,
   mapDispatchToProps,
   mapDispatchToPropsIncludingVisitAndRemote,
 } from './utils/react'
+import { mapStateToProps, mapDispatchToProps } from './utils/react'
 export {
   breezyReducer,
   pageReducer,
@@ -45,7 +47,6 @@ function start({
   const initialPageKey = urlToPageKey(parse(path).href)
   const { csrfToken } = initialPage
   const location = parse(path)
-  const { pathname, query, hash } = location
 
   config.baseUrl = baseUrl
   config.maxPages = maxPages
@@ -86,18 +87,14 @@ export class ApplicationBase extends React.Component {
     this.navigatorRef = React.createRef()
 
     // Retrieve initial values and methods to prepare the store.
-    const {
-      prepareStore,
-      initialState,
-      initialPageKey,
-      reducer,
-    } = start({
-      initialPage: this.props.initialPage,
-      baseUrl: this.props.baseUrl,
-      path: this.props.path,
-      // The max number of pages to keep in the store. Default is 20
-      // maxPages: 20
-    })
+    const { prepareStore, initialState, initialPageKey, reducer } =
+      start({
+        initialPage: this.props.initialPage,
+        baseUrl: this.props.baseUrl,
+        path: this.props.path,
+        // The max number of pages to keep in the store. Default is 20
+        // maxPages: 20
+      })
     this.initialPageKey = initialPageKey
 
     // Build the store and pass Breezy's provided reducer to be combined with
@@ -109,6 +106,18 @@ export class ApplicationBase extends React.Component {
 
     // Build history
     this.history = this.createHistory()
+    this.history.replace(...argsForHistory(this.props.path))
+
+    const nextMapping = { ...this.mapping() }
+    for (const key in nextMapping) {
+      const component = nextMapping[key]
+      nextMapping[key] = connect(
+        mapStateToProps,
+        mapDispatchToProps
+      )(component)
+    }
+
+    this.connectedMapping = nextMapping
 
     // Build visit and remote thunks
     // Your modified `visit` and `remote` will get passed below to the
@@ -186,11 +195,18 @@ export class ApplicationBase extends React.Component {
           ref={this.navigatorRef}
           visit={this.visit}
           remote={this.remote}
-          mapping={this.mapping()}
+          mapping={this.connectedMapping}
           history={this.history}
           initialPageKey={this.initialPageKey}
         />
       </Provider>
     )
   }
+}
+
+ApplicationBase.propTypes = {
+  initialPage: PropTypes.object,
+  baseUrl: PropTypes.string,
+  path: PropTypes.string,
+  appEl: PropTypes.object,
 }

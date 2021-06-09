@@ -3,27 +3,28 @@ import parse from 'url-parse'
 const uniqueId = () => Math.random().toString(36).substring(2, 10)
 
 export function pathQuery(url) {
-  const { pathname, query } = new parse(url)
+  const { pathname, query } = new parse(url, {})
 
   return pathname + query
 }
 
 export function pathQueryHash(url) {
-  const { pathname, query, hash } = new parse(url)
+  const { pathname, query, hash } = new parse(url, {})
 
   return pathname + query + hash
 }
 
 export function hasBzq(url) {
-  url = new parse(url, true)
+  url = new parse(url, {}, true)
   let query = url.query
 
   return !!query['bzq']
 }
 
 export function withAntiCache(url) {
-  url = new parse(url, true)
-  if (url.query.hasOwnProperty('_')) {
+  url = new parse(url, {}, true)
+
+  if (Object.prototype.hasOwnProperty.call(url.query, '_')) {
     return url.toString()
   } else {
     url.query['_'] = uniqueId()
@@ -32,8 +33,8 @@ export function withAntiCache(url) {
 }
 
 export function withMimeBust(url) {
-  url = new parse(url, true)
-  if (url.query.hasOwnProperty('__')) {
+  url = new parse(url, {}, true)
+  if (Object.prototype.hasOwnProperty.call(url.query, '__')) {
     return url.toString()
   } else {
     url.query['__'] = '0'
@@ -42,7 +43,7 @@ export function withMimeBust(url) {
 }
 
 export function withoutBusters(url) {
-  url = new parse(url, true)
+  url = new parse(url, {}, true)
   let query = url.query
   delete query['__']
   delete query['_']
@@ -51,7 +52,7 @@ export function withoutBusters(url) {
 }
 
 export function pathWithoutBZParams(url) {
-  url = new parse(url, true)
+  url = new parse(url, {}, true)
   let query = url.query
 
   delete query['__']
@@ -63,7 +64,7 @@ export function pathWithoutBZParams(url) {
 }
 
 export function removeBzq(url) {
-  url = new parse(url, true)
+  url = new parse(url, {}, true)
   let query = url.query
 
   delete query['bzq']
@@ -73,7 +74,7 @@ export function removeBzq(url) {
 }
 
 export function urlToPageKey(url) {
-  url = new parse(url, true)
+  url = new parse(url, {}, true)
   let query = url.query
 
   delete query['__']
@@ -85,7 +86,7 @@ export function urlToPageKey(url) {
 }
 
 export function withoutHash(url) {
-  url = new parse(url, true)
+  url = new parse(url, {}, true)
   url.hash = ''
   return url.toString()
 }

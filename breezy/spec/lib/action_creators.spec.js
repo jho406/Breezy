@@ -64,7 +64,7 @@ describe('action creators', () => {
       const pageKey = '/test'
       const node = { d: 'foo' }
       const pathToNode = 'a.b'
-      const fragments = [('foo': ['bar'])]
+      const fragments = [{ 'foo': ['bar'] }]
       const page = {
         data: {
           d: 'foo',
@@ -142,7 +142,7 @@ describe('action creators', () => {
         },
         {
           type: '@@breezy/BEFORE_FETCH',
-          payload: jasmine.any(Object),
+          payload: expect.any(Object),
         },
         {
           type: '@@breezy/HANDLE_GRAFT',
@@ -160,7 +160,7 @@ describe('action creators', () => {
         },
         {
           type: '@@breezy/GRAFTING_SUCCESS',
-          payload: jasmine.any(Object),
+          payload: expect.any(Object),
         },
       ]
 
@@ -208,7 +208,7 @@ describe('action creators', () => {
         },
         {
           type: '@@breezy/BEFORE_FETCH',
-          payload: jasmine.any(Object),
+          payload: expect.any(Object),
         },
         {
           type: '@@breezy/HANDLE_GRAFT',
@@ -226,7 +226,7 @@ describe('action creators', () => {
         },
         {
           type: 'FOOBAR',
-          payload: jasmine.any(Object),
+          payload: expect.any(Object),
         },
       ]
 
@@ -371,18 +371,18 @@ describe('action creators', () => {
         },
         {
           type: '@@breezy/BEFORE_FETCH',
-          payload: jasmine.any(Object),
+          payload: expect.any(Object),
         },
         {
           type: '@@breezy/ERROR',
-          payload: jasmine.any(Object),
+          payload: expect.any(Object),
         },
         {
           type: '@@breezy/GRAFTING_ERROR',
           payload: {
             url: '/some_defered_request?bzq=body',
             pageKey: '/foo',
-            err: jasmine.any(Object),
+            err: expect.any(Object),
             keyPath: 'body',
           },
         },
@@ -420,18 +420,18 @@ describe('action creators', () => {
         },
         {
           type: '@@breezy/BEFORE_FETCH',
-          payload: jasmine.any(Object),
+          payload: expect.any(Object),
         },
         {
           type: '@@breezy/ERROR',
-          payload: jasmine.any(Object),
+          payload: expect.any(Object),
         },
         {
           type: 'FOOBAR',
           payload: {
             url: '/some_defered_request?bzq=body',
             pageKey: '/foo',
-            err: jasmine.any(Object),
+            err: expect.any(Object),
             keyPath: 'body',
           },
         },
@@ -464,7 +464,7 @@ describe('action creators', () => {
       const expectedActions = [
         {
           type: '@@breezy/BEFORE_FETCH',
-          payload: { fetchArgs: ['/foo?__=0', jasmine.any(Object)] },
+          payload: { fetchArgs: ['/foo?__=0', expect.any(Object)] },
         },
         {
           type: '@@breezy/SAVE_RESPONSE',
@@ -531,7 +531,7 @@ describe('action creators', () => {
       const expectedActions = [
         {
           type: '@@breezy/BEFORE_FETCH',
-          payload: { fetchArgs: ['/foo?__=0', jasmine.any(Object)] },
+          payload: { fetchArgs: ['/foo?__=0', expect.any(Object)] },
         },
         {
           type: '@@breezy/SAVE_RESPONSE',
@@ -562,7 +562,7 @@ describe('action creators', () => {
         })
     })
 
-    it('defaults to the currentPageKey as the pageKey', (done) => {
+    it('defaults to the currentPageKey as the pageKey', () => {
       const store = mockStore({
         breezy: {
           currentPageKey: '/current_url',
@@ -582,16 +582,14 @@ describe('action creators', () => {
         .dispatch(remote('/foobar', { method: 'POST' }))
         .then((meta) => {
           expect(meta).toEqual(
-            jasmine.objectContaining({
+            expect.objectContaining({
               pageKey: '/current_url',
             })
           )
-
-          done()
         })
     })
 
-    it('uses the pageKey option to override the currentPageKey as the preferred pageKey', (done) => {
+    it('uses the pageKey option to override the currentPageKey as the preferred pageKey', () => {
       const store = mockStore({
         breezy: {
           currentPageKey: '/url_to_be_overridden',
@@ -613,12 +611,10 @@ describe('action creators', () => {
         )
         .then((meta) => {
           expect(meta).toEqual(
-            jasmine.objectContaining({
+            expect.objectContaining({
               pageKey: '/bar_override',
             })
           )
-
-          done()
         })
     })
 
@@ -656,7 +652,7 @@ describe('action creators', () => {
       const expectedActions = [
         {
           type: '@@breezy/BEFORE_FETCH',
-          payload: { fetchArgs: ['/foo?__=0', jasmine.any(Object)] },
+          payload: { fetchArgs: ['/foo?__=0', expect.any(Object)] },
         },
         {
           type: '@@breezy/ERROR',
@@ -668,7 +664,7 @@ describe('action creators', () => {
         expect(err.message).toEqual('Internal Server Error')
         expect(err.response.status).toEqual(500)
         expect(store.getActions()).toEqual(
-          jasmine.objectContaining(expectedActions)
+          expect.objectContaining(expectedActions)
         )
       })
     })
@@ -686,7 +682,7 @@ describe('action creators', () => {
       const expectedActions = [
         {
           type: '@@breezy/BEFORE_FETCH',
-          payload: { fetchArgs: ['/foo?__=0', jasmine.any(Object)] },
+          payload: { fetchArgs: ['/foo?__=0', expect.any(Object)] },
         },
         {
           type: '@@breezy/ERROR',
@@ -703,7 +699,7 @@ describe('action creators', () => {
         )
         expect(err.response.status).toEqual(200)
         expect(store.getActions()).toEqual(
-          jasmine.objectContaining(expectedActions)
+          expect.objectContaining(expectedActions)
         )
       })
     })
@@ -721,7 +717,7 @@ describe('action creators', () => {
       const expectedActions = [
         {
           type: '@@breezy/BEFORE_FETCH',
-          payload: { fetchArgs: ['/foo?__=0', jasmine.any(Object)] },
+          payload: { fetchArgs: ['/foo?__=0', expect.any(Object)] },
         },
         {
           type: '@@breezy/ERROR',
@@ -738,7 +734,7 @@ describe('action creators', () => {
         )
         expect(err.response.status).toEqual(200)
         expect(store.getActions()).toEqual(
-          jasmine.objectContaining(expectedActions)
+          expect.objectContaining(expectedActions)
         )
       })
     })
@@ -832,7 +828,7 @@ describe('action creators', () => {
     })
 
     it('warns when a placeholder is passed but does not exist in state', (done) => {
-      spyOn(console, 'warn')
+      jest.spyOn(console, 'warn')
       const initialState = {
         breezy: {
           assets: [],
@@ -874,7 +870,7 @@ describe('action creators', () => {
     })
 
     it('warns when bzq is included but a placeholder was not passed', (done) => {
-      spyOn(console, 'warn')
+      jest.spyOn(console, 'warn')
       const initialState = {
         breezy: {
           assets: [],
@@ -925,8 +921,8 @@ describe('action creators', () => {
       const expectedActions = [
         { type: '@@breezy/CLEAR_FLASH', payload: { pageKey: '/current' } },
         { type: '@@breezy/COPY_PAGE', payload: { from: '/current', to: '/details' } },
-        { type: '@@breezy/BEFORE_FETCH', payload: jasmine.any(Object) },
-        { type: '@@breezy/HANDLE_GRAFT', payload: jasmine.any(Object) },
+        { type: '@@breezy/BEFORE_FETCH', payload: expect.any(Object) },
+        { type: '@@breezy/HANDLE_GRAFT', payload: expect.any(Object) },
       ]
 
       store.dispatch(visit('/details?bzq=data.address', {placeholderKey: '/current'})).then((meta) => {

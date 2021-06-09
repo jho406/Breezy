@@ -58,6 +58,7 @@ function atKey(node, key) {
   let id, attr
 
   if (isSearchable.test(key)) {
+    // eslint-disable-next-line
     ;[attr, id] = Array.from(key.split('='))
   }
 
@@ -75,7 +76,10 @@ function atKey(node, key) {
     )
   }
 
-  if (isObject(node) && !node.hasOwnProperty(key)) {
+  if (
+    isObject(node) &&
+    !Object.prototype.hasOwnProperty.call(node, key)
+  ) {
     throw new Error(
       `Expected to find key: ${key} in object ${JSON.stringify(node)}`
     )
