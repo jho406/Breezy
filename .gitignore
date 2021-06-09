@@ -1,4 +1,5 @@
 *.lock
+.tool-versions
 node_modules
 dist
 pkg/
