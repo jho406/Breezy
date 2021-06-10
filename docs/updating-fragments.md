@@ -1,6 +1,7 @@
 # Updating Fragments
 
-Much like in ERB, when building pages with PropsTemplate, we use partials to extract shared views. For example:
+Much like in ERB, when building pages with PropsTemplate, we use partials to
+extract shared views. For example:
 
 ```
 views/
@@ -35,11 +36,15 @@ This results in duplicate JSON nodes across our Redux state:
 }
 ```
 
-As we mentioned in the [state shape guide](./redux-state-shape.md) this is by design. To update these cross cutting cocerns, you will have create a reducer to iterate through each `pages` node and immutably update them. This can be error prone, but Breezy provides tooling to make this easy.
+As we mentioned in the [state shape guide](docs/redux-state-shape.md) this is by
+design. To update these cross cutting cocerns, you will have create a reducer
+to iterate through each `pages` node and immutably update them. This can be
+error prone, but Breezy provides tooling to make this easy.
 
 # Fragments
 
-To help with creating reducers, Breezy provides fragments. A fragment in Breezy is a rendered partial with a given name:
+To help with creating reducers, Breezy provides fragments. A fragment in Breezy
+is a rendered partial with a given name:
 
 ```
   json.body do
@@ -47,7 +52,8 @@ To help with creating reducers, Breezy provides fragments. A fragment in Breezy 
   end
 ```
 
-Using the fragment functionality will create metadata about the node. This has been setup for you in `application.json.props`:
+Using the fragment functionality will create metadata about the node. This has
+been setup for you in `application.json.props`:
 
 ```ruby
 json.data(search: path) do
@@ -68,12 +74,14 @@ fragments: [
 ```
 
 {% hint style="info" %}
-Fragments used in nodes that are [deferred](docs/navigation.md#deferments) do not show up inside the metadata until the deferred nodes are loaded.
+Fragments used in nodes that are [deferred](docs/navigation.md#deferments) do
+not show up inside the metadata until the deferred nodes are loaded.
 {% endhint %}
 
 # Creating reducers
 
-You can use the metadata created by fragments to update cross cutting concerns in your reducer:
+You can use the metadata created by fragments to update cross cutting concerns
+in your reducer:
 
 ```javascript
 import { getIn } from '@jho406/breezy'

@@ -12,7 +12,8 @@
 | obj | `Object` | Typically the redux state.
 | path | `String ` | A keypath to the node in your state, `posts.post_id=1.comment.0.body`
 
-Traverses to the node using a keypath. For example, given a page that looks like this:
+Traverses to the node using a keypath. For example, given a page that looks
+like this:
 
 ```text
 '/posts': {
@@ -45,7 +46,8 @@ or find first by its attribute and value
 getIn(state, '/posts.data.post_id=0.comment.0.body')
 ```
 
-The above would find the first occurrence where `post_id=1` before continuing traversing.
+The above would find the first occurrence where `post_id=1` before continuing
+traversing.
 
 
 

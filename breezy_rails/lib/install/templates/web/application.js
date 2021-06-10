@@ -28,7 +28,7 @@ if (typeof window !== "undefined") {
       render(
         <Application
           appEl={appEl}
-          // The base url is an optional prefix to all calls made by the `visit`
+          // The base url prefixed to all calls made by the `visit`
           // and `remote` thunks.
           baseUrl={location.origin}
           // The global var BREEZY_INITIAL_PAGE_STATE is set by your erb
