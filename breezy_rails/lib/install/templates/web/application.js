@@ -30,7 +30,7 @@ if (typeof window !== "undefined") {
           appEl={appEl}
           // The base url is an optional prefix to all calls made by the `visit`
           // and `remote` thunks.
-          baseUrl={""}
+          baseUrl={location.origin}
           // The global var BREEZY_INITIAL_PAGE_STATE is set by your erb
           // template, e.g., index.html.erb
           initialPage={window.BREEZY_INITIAL_PAGE_STATE}
