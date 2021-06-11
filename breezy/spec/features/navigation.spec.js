@@ -1,5 +1,5 @@
 import { ApplicationBase } from '../../lib/index'
-import NavComponent from '../../lib/components/NavComponent'
+import Nav from '../../lib/components/Nav'
 import fetchMock from 'fetch-mock'
 import * as rsp from '../fixtures'
 import { combineReducers, createStore, applyMiddleware } from 'redux'
@@ -288,7 +288,7 @@ describe('navigation', () => {
           />
         )
         const store = component.instance().store
-        navComponent = component.find(NavComponent).instance()
+        navComponent = component.find(Nav).instance()
 
         expect(component.find(ExampleHome).exists()).toBe(true)
       })
@@ -331,7 +331,7 @@ describe('navigation', () => {
         />
       )
       const store = component.instance().store
-      const navComponent = component.find(NavComponent).instance()
+      const navComponent = component.find(Nav).instance()
 
       const mockResponse = rsp.visitSuccess()
       mockResponse.headers['x-response-url'] = '/foo'
@@ -382,7 +382,7 @@ describe('navigation', () => {
         />
       )
       const store = component.instance().store
-      const navComponent = component.find(NavComponent).instance()
+      const navComponent = component.find(Nav).instance()
 
       component.find('button').simulate('click')
       await flushPromises()
@@ -425,7 +425,7 @@ describe('navigation', () => {
         />
       )
       const store = component.instance().store
-      const navComponent = component.find(NavComponent).instance()
+      const navComponent = component.find(Nav).instance()
 
       expect(component.find(Home).exists()).toBe(true)
       expect(component.find(About).exists()).toBe(false)
@@ -506,7 +506,7 @@ describe('navigation', () => {
       )
 
       store = component.instance().store
-      navComponent = component.find(NavComponent).instance()
+      navComponent = component.find(Nav).instance()
     })
 
     it('refreshes when the page has been evicted', (done) => {
@@ -521,7 +521,7 @@ describe('navigation', () => {
         componentDidMount() {
           history.listen(({ pathname, hash }) => {
             process.nextTick(() => {
-              expect(NavComponent.prototype.reloadPage).toHaveBeenCalled()
+              expect(Nav.prototype.reloadPage).toHaveBeenCalled()
               done()
             })
           })
@@ -530,7 +530,7 @@ describe('navigation', () => {
         }
       }
 
-      jest.spyOn(NavComponent.prototype, 'reloadPage').mockImplementation(() => {})
+      jest.spyOn(Nav.prototype, 'reloadPage').mockImplementation(() => {})
 
       const initialPage = {
         data: {

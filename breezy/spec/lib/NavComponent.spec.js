@@ -4,7 +4,7 @@ import * as rsp from '../fixtures'
 import { Provider } from 'react-redux'
 import { createMemoryHistory } from 'history'
 import configureMockStore from 'redux-mock-store'
-import Nav from '../../lib/components/NavComponent.js'
+import Nav from '../../lib/components/Nav'
 import { mount } from 'enzyme'
 
 class Home extends React.Component {

@@ -14,7 +14,7 @@ import {
 import thunk from 'redux-thunk'
 import { Provider, connect } from 'react-redux'
 import { createBrowserHistory, createMemoryHistory } from 'history'
-import Nav from './components/NavComponent'
+import Nav from './components/Nav'
 import PropTypes from 'prop-types'
 
 export {
@@ -121,7 +121,7 @@ export class ApplicationBase extends React.Component {
 
     // Build visit and remote thunks
     // Your modified `visit` and `remote` will get passed below to the
-    // NavComponent then to your components
+    // Nav component then to your components
     //
     // You can access them via `this.props.visit` or `this.props.remote`. In
     // your page components
