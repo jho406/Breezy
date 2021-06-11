@@ -14,11 +14,12 @@ export function mapStateToProps(
   let params = ownProps
   const csrfToken = state.breezy.csrfToken
   pageKey = urlToPageKey(pageKey)
-  const { data, flash } = state.pages[pageKey] || {
+  const { data, flash, fragments } = state.pages[pageKey] || {
     data: {},
     flash: {},
+    fragments: [],
   }
-  return { ...data, ...params, pageKey, csrfToken, flash }
+  return { ...data, ...params, pageKey, csrfToken, flash, fragments }
 }
 
 export const mapDispatchToProps = {
