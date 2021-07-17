@@ -98,6 +98,11 @@ export function saveAndProcessPage(pageKey, page) {
       dispatch(saveResponse({ pageKey, page }))
     }
 
-    return dispatch(fetchDeferments(pageKey, defers))
+    const hasFetch = typeof fetch != 'undefined'
+    if (hasFetch) {
+      return dispatch(fetchDeferments(pageKey, defers))
+    } else {
+      return Promise.resolve()
+    }
   }
 }
